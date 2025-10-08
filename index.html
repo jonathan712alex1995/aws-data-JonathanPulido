@@ -167,6 +167,31 @@
             color: #00d9ff;
         }
         
+        .links-container {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .links-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .links-container::-webkit-scrollbar-track {
+            background: rgba(0, 217, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .links-container::-webkit-scrollbar-thumb {
+            background: #00d9ff;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+        }
+        
+        .links-container::-webkit-scrollbar-thumb:hover {
+            background: #0ff;
+        }
+        
         .link-item {
             background: rgba(0, 217, 255, 0.05);
             border: 1px solid rgba(0, 217, 255, 0.3);
@@ -176,7 +201,7 @@
             margin-bottom: 15px;
             transition: all 0.3s ease;
             position: relative;
-            width: 70%;
+            width: 90%;
         }
         
         .link-item:hover {
@@ -266,18 +291,29 @@
             <h1>cd portafolio && dir</span></h1>
             <p class="subtitle">Directorio de C:\Users\Jonathan\Desktop\portafolio</p>
             
-            <div class="link-item">
-                <a href="https://github.com/jonathan712alex1995/aws-data-JonathanPulido/blob/main/Tarea1/instalacion_dependencias.md" target="_blank">
-                    <span class="link-icon">06/10/2025  11:50 p. m.</span>
-                    <span style="margin-left: 10px; font-size: 0.9rem;">Tarea 1.md</span>
-                </a>
-            </div>
+            <div class="links-container">
+                <div class="link-item">
+                    <a href="https://github.com/jonathan712alex1995/aws-data-JonathanPulido/blob/main/Tarea1/instalacion_dependencias.md" target="_blank">
+                        <span class="link-icon">06/10/2025  11:50 p. m.</span>
+                        <span style="margin-left: 10px; font-size: 0.9rem;">Tarea 1.md</span>
+                    </a>
+                </div>
 
-            <div class="link-item">
-                <a href="https://github.com/jonathan712alex1995/aws-data-JonathanPulido/blob/main/Tarea2/calculadora.html" target="_blank">
-                    <span class="link-icon">07/10/2025  11:08 p. m.</span>
-                    <span style="margin-left: 10px; font-size: 0.9rem;">Tarea 2-calculadora.index</span>
-                </a>
+                <div class="link-item">
+                    <a href="https://github.com/jonathan712alex1995/aws-data-JonathanPulido/blob/main/Tarea2/Calculadora.md" target="_blank">
+                        <span class="link-icon">07/10/2025  11:08 p. m.</span>
+                        <span style="margin-left: 10px; font-size: 0.9rem;">Tarea 2-calculadora.md</span>
+                    </a>
+                </div>
+
+                <div class="link-item">
+                    <a href="https://github.com/jonathan712alex1995/aws-data-JonathanPulido/blob/main/Tarea2/Analisis%20Spotify%20songs.md" target="_blank">
+                        <span class="link-icon">07/10/2025  11:08 p. m.</span>
+                        <span style="margin-left: 10px; font-size: 0.9rem;">Tarea 2-Jupyter Analisis Spotify.md</span>
+                    </a>
+                </div>
+
+                
             </div>
             
             <h1><span class="cursor"></span></h1>
