@@ -7,68 +7,277 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #0a0e27;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Ubuntu Mono', 'Courier New', monospace;
+            color: #00d9ff;
+            position: relative;
+            overflow: hidden;
         }
-        .portfolio-container {
-            background: white;
-            border-radius: 20px;
-            padding: 50px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(90deg, rgba(10,14,39,0) 0%, rgba(0,217,255,0.08) 50%, rgba(10,14,39,0) 100%),
+                repeating-linear-gradient(0deg, rgba(0,217,255,0.03) 0px, transparent 1px, transparent 2px, rgba(0,217,255,0.03) 3px);
+            animation: scan 8s linear infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        
+        .terminal-container {
+            background: #0f1419;
+            border: 1px solid #00d9ff;
+            border-radius: 8px 8px 6px 6px;
+            padding: 0;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.3), 0 8px 32px rgba(0, 0, 0, 0.8);
+            max-width: 700px;
             width: 90%;
+            position: relative;
+            z-index: 1;
         }
-        h1 {
-            color: #667eea;
+        
+        .terminal-header {
+            background: linear-gradient(180deg, #1a1f2e 0%, #0f1419 100%);
+            padding: 8px 12px;
+            border-bottom: 1px solid #00d9ff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .terminal-buttons {
+            display: flex;
+            gap: 8px;
+            order: 2;
+        }
+        
+        .terminal-button {
+            width: 16px;
+            height: 16px;
+            border-radius: 2px;
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .terminal-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .terminal-button.close { 
+            background: #1a1f2e;
+        }
+        
+        .terminal-button.close::before {
+            content: '×';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #00d9ff;
+            font-size: 14px;
             font-weight: bold;
+        }
+        
+        .terminal-button.minimize { 
+            background: #1a1f2e;
+        }
+        
+        .terminal-button.minimize::before {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 3px;
+            right: 3px;
+            height: 2px;
+            background: #00d9ff;
+        }
+        
+        .terminal-button.maximize { 
+            background: #1a1f2e;
+        }
+        
+        .terminal-button.maximize::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
+            border: 2px solid #00d9ff;
+        }
+        
+        .terminal-title {
+            color: #00d9ff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+            order: 1;
+        }
+        
+        .terminal-body {
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        h1::before {
+            content: 'C:\\Users\\Jonathan\\Desktop>';
+            color: #00d9ff;
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.7);
+        }
+        
+        .subtitle {
+            color: #00d9ff;
             margin-bottom: 30px;
+            font-size: 0.75rem;
+        }
+        
+        .subtitle::before {
+            /* content: '# '; */
+            color: #00d9ff;
+        }
+        
+        .link-item {
+            background: rgba(0, 217, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-left: 3px solid #00d9ff;
+            border-radius: 4px;
+            padding: 18px 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            width: 70%;
+        }
+        
+        .link-item:hover {
+            background: rgba(0, 217, 255, 0.1);
+            border-left-color: #0ff;
+            transform: translateX(5px);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
+        }
+        
+        .link-item::before {
+            content: '▶';
+            position: absolute;
+            left: -15px;
+            color: #00d9ff;
+            font-weight: bold;
+            opacity: 0;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.8);
+        }
+        
+        .link-item:hover::before {
+            opacity: 1;
+            left: -20px;
+        }
+        
+        .link-item a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .link-item a:hover {
+            color: #00d9ff;
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+        }
+        
+        .link-icon {
+            color: #00d9ff;
+            font-size: 0.8rem;
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.7);
+        }
+        
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: #00d9ff;
+            animation: blink 1s infinite;
+            margin-left: 5px;
+            box-shadow: 0 0 10px rgba(0, 217, 255, 0.8);
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        .nameContainer{
+            width: 90%;
             text-align: center;
         }
-        .link-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .link-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-        .link-card a {
+        h3.nombre{
+            font-size: 3rem;
             color: white;
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: 500;
-            display: block;
-        }
-        .link-card a:hover {
-            color: #f0f0f0;
         }
     </style>
 </head>
 <body>
-    <div class="portfolio-container">
-        <h1>Portafolio Jonathan Pulido</h1>
-        
-        <div class="link-card">
-            <a href="proyecto1.html">📁 Proyecto 1</a>
+    <div style="display: flex; flex-direction: column; width: 90%; justify-content: center; align-items: center;">
+    
+        <div class="nameContainer">
+            <h3 class="nombre">//Jonathan Alexandro Pulido Estrada</h3>
+        </div>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <span class="terminal-title">C:\Windows\system32\cmd.exe</span>
+            <div class="terminal-buttons">
+                <span class="terminal-button minimize"></span>
+                <span class="terminal-button maximize"></span>
+                <span class="terminal-button close"></span>
+            </div>
         </div>
         
-        <div class="link-card">
-            <a href="proyecto2.html">📁 Proyecto 2</a>
-        </div>
-        
-        <div class="link-card">
-            <a href="proyecto3.html">📁 Proyecto 3</a>
+        <div class="terminal-body">
+            <h1>cd portafolio && dir</span></h1>
+            <p class="subtitle">Directorio de C:\Users\Jonathan\Desktop\portafolio</p>
+            
+            <div class="link-item">
+                <a href="https://github.com/jonathan712alex1995/aws-data-JonathanPulido/blob/main/Tarea1/instalacion_dependencias.md" target="_blank">
+                    <span class="link-icon">06/10/2025  11:50 p. m.</span>
+                    <span style="margin-left: 10px; font-size: 0.9rem;">Tarea 1.md</span>
+                </a>
+            </div>
+            
+            <h1><span class="cursor"></span></h1>
+
         </div>
     </div>
+</div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
