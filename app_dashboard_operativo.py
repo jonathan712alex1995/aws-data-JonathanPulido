@@ -5,8 +5,8 @@ import pandas as pd
 import subprocess
 import boto3
 import io
-#from last_folder import get_last_folder_in_production
-#from last_file import get_last_file_in_folder
+from last_folder import get_last_folder_in_production
+from last_file import get_last_file_in_folder
 
 st.set_page_config(page_title="Dashboard Operativo", layout="wide")
 count = st_autorefresh(interval=60000, limit=None, key="datarefresh_operativo")
