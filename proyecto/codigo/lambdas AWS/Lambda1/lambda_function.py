@@ -1,43 +1,62 @@
-import json
+# Jonathan Alexandro Pulido Estrada
 import boto3
-import pandas as pd
-import io
+import os
+from datetime import timedelta
+from import_csv import *
+from mysql_utils import *
 
-#para generar el dataframe del json
-def gen_df(s3, bucket_name, prefix):
-    response = s3.list_objects_v2(Bucket=bucket_name , Prefix = prefix)
-    data_frames = []
-    for obj in response["Contents"]:
-        key = obj["Key"]
-        if key.endswith(".json"):
-            file_obj = s3.get_object(Bucket = bucket_name , Key= key)
-            content = file_obj["Body"].read().decode("utf-8")
-            json_data = json.loads(content)
-            df_temp = pd.json_normalize(json_data)
-            data_frames.append(df_temp)
-    df=pd.concat(data_frames , ignore_index=True)
-    return df
+# Datos de conexión a MySQL
+host = os.environ['DB_HOST']
+port = os.environ['DB_PORT']
+dataBase = os.environ['DB_DATABASE']
+user = os.environ['DB_USER']
+password = os.environ['DB_PASS']
+send_to_bucket = os.environ['SEND_TO_BUCKET']
+target = "crudos/"
 
-#convertir a csv
-def convert_df_to_csv(df):
-    csv_buffer = io.StringIO()
-    df.to_csv(csv_buffer, index=False)
-    return csv_buffer
+def lambda_handler(event, context):
+    s3 = boto3.client("s3")
 
-#parquet
-def convert_df_to_parquet(df):
-    parquet_buffer = io.BytesIO()
-    df.to_parquet(parquet_buffer, index=False)
-    parquet_buffer.seek(0)  # Volver al inicio del buffer
-    return parquet_buffer
+    try:
+        fecha = get_last_date(s3, send_to_bucket) + timedelta(days=1)
+        #Conexión a MySQL
+        conn = init_conn(host, port, dataBase, user, password)
 
+        
+        query = f"""
+            SELECT * 
+            FROM produccion pp
+            JOIN productos p ON pp.id_producto = p.id_producto
+            JOIN operadores op ON pp.id_operador = op.id_operador
+            WHERE pp.fecha = '{fecha}'
+        """
+        #create dataframe
+        df = create_df(conn, query)
 
-#enviar a bucket destino 
-def send_csv_or_parquet(s3, file_buffer, bucket, key):
-    s3.put_object(
-        Bucket=bucket,
-        Key=key,
-        Body=file_buffer.getvalue()
-    )
+        if df.empty:
+            save_last_date(fecha, s3, send_to_bucket)
+            return {
+                'statusCode': 204,
+                'body': f"No se encontraron datos para {fecha}. Fecha actualizada."
+            }
+        #set foldername and filename
+        folder_name = fecha.strftime("%Y-%m")
+        file_name = f"produccion_{fecha}.csv"
+        key = f"{target}{file_name}"
+        #dataframe to csv
+        parquet_buffer = convert_df_to_csv(df)
+        #send to bucket
+        send_csv_or_parquet(s3, parquet_buffer, send_to_bucket, key)
+        #update last date
+        save_last_date(fecha, s3, send_to_bucket)
 
+        return {
+            'statusCode': 200,
+            'body': f" Archivo guardado correctamente para la fecha {fecha}."
+        }
 
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'error': str(e)
+        }

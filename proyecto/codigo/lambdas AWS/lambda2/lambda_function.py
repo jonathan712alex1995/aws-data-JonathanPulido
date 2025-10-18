@@ -3,7 +3,7 @@ import boto3
 import os
 from transform_csv_to_parquet import *
 
-bucket = "xideralaws-curso-jonathan"
+bucket = os.environ['SEND_TO_BUCKET']
 prefix = "crudos/"
 target = "produccion/"
 s3 = boto3.client('s3')
