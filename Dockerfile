@@ -2,13 +2,13 @@
 FROM python:3.11
  
 # Instalar dependencias necesarias
-RUN pip install --no-cache-dir  streamlit mysql-connector-python pandas  matplotlib seaborn dotenv streamlit_autorefresh plotly.express plotly.graph_objects subprocess boto3 io
+RUN pip install --no-cache-dir  streamlit mysql-connector-python pandas  matplotlib seaborn dotenv streamlit_autorefresh plotly.express 
  
 # Crear directorio de trabajo
 WORKDIR /app
  
 # Copiar el código de la app
-COPY app_dashboard_produccion.py /app/
+COPY app_dashboard_operativo.py /app/
  
 # Exponer el puerto de Streamlit
 EXPOSE 8501
