@@ -2,7 +2,7 @@
 FROM python:3.11
  
 # Instalar dependencias necesarias
-RUN pip install --no-cache-dir  streamlit mysql-connector-python pandas  matplotlib seaborn dotenv streamlit_autorefresh
+RUN pip install --no-cache-dir  streamlit mysql-connector-python pandas  matplotlib seaborn dotenv streamlit_autorefresh plotly.express
  
 # Crear directorio de trabajo
 WORKDIR /app
