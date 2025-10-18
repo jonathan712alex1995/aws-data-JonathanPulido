@@ -8,7 +8,7 @@ RUN pip install --no-cache-dir  streamlit mysql-connector-python pandas  matplot
 WORKDIR /app
  
 # Copiar el código de la app
-COPY app.py /app/
+COPY app_dashboard_produccion.py /app/
  
 # Exponer el puerto de Streamlit
 EXPOSE 8501
