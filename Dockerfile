@@ -10,6 +10,7 @@ WORKDIR /app
 # Copiar el código de la app
 COPY app_dashboard_produccion.py /app/
 COPY functions_app_dashboard_produccion.py /app/
+COPY parquet_to_csv.py /app/
 
  
 # Exponer el puerto de Streamlit
