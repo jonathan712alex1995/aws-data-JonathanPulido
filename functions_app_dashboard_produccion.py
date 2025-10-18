@@ -8,7 +8,7 @@ def load_data():
 
 def update_dashboard():
     subprocess.run([
-        "python", "/home/ubuntu/proyecto/parquet_to_csv.py"
+        "python", "parquet_to_csv.py"  # Ahora está en /app junto con los demás
     ], check=True)
 
 def production_per_operator(df):
