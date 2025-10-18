@@ -4,6 +4,7 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # ← Agregar esta línea
 import pandas as pd
+import subprocess
 
 @st.cache_data(ttl=60)
 def load_data():
