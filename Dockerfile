@@ -14,4 +14,4 @@ COPY app_dashboard_produccion.py /app/
 EXPOSE 8501
  
 # Comando para correr Streamlit
-CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "app_dashboard_produccion.py", "--server.port=8501", "--server.address=0.0.0.0"]
