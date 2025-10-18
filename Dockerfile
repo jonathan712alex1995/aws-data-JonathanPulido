@@ -9,6 +9,8 @@ WORKDIR /app
  
 # Copiar el código de la app
 COPY app_dashboard_operativo.py /app/
+COPY last_file.py /app/
+COPY last_folder.py /app/
  
 # Exponer el puerto de Streamlit
 EXPOSE 8501
